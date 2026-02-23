@@ -1,107 +1,108 @@
-# Gemini「学習オフ」でも最大72時間保存される件（見えない保持の可視化）
+# Gemini: "Keep Activity OFF" Still Means Up to 72-Hour Retention (Invisible in Activity)
 
-このリポジトリは、Google Gemini の設定「Gemini Apps Activity（Keep Activity）」をオフにしても、
-会話が **最大72時間** アカウントに保存され得ること、さらにその短期保存が **Gemini Apps Activity に表示されない**
-（ユーザー側から見えない）ことを、公式ドキュメントに基づいて整理し、ユーザーが自衛できるようにするための資料です。
+> **[日本語版はこちら / Japanese version](README.ja.md)**
+
+This repo documents, using official Google documentation, that turning **Gemini Apps Activity (Keep Activity)** OFF
+may still allow conversations to be saved for **up to 72 hours**, and that this short-term retention **does not appear**
+in Gemini Apps Activity (i.e., it is not user-visible).
+
+This is not a hack, not a conspiracy theory — just a careful reading of what Google has already published.
 
 ---
 
-## 重要ポイント（結論）
+## Key Points
 
 ```mermaid
 flowchart TB
-  A[ユーザーがGeminiと対話] --> B{Gemini Apps Activity\nKeep Activity}
-  B -->|ON| C[対話履歴がアカウントに保存\nActivityに表示される]
-  C --> D[製品改善に使われうる\n設定・ポリシーに基づく]
+  A[User chats with Gemini] --> B{Gemini Apps Activity\nKeep Activity}
+  B -->|ON| C[Chat history stored in account\nVisible in Activity]
+  C --> D[May be used for product improvement\nper settings/policies]
 
-  B -->|OFF| E[Activity履歴には残らない\nActivityに表示されない]
-  E --> F[短期保持は発生しうる:\n最大72時間]
-  F --> G[目的:\nサービス提供 + フィードバック処理]
-  F --> H[期間経過後:\nActivity履歴としては保持されない]
+  B -->|OFF| E[No Activity history entry\nNot visible in Gemini Apps Activity]
+  E --> F[Short-term retention may still occur:\nup to 72 hours]
+  F --> G[Stated purpose:\nprovide service + process feedback]
+  F --> H[After window expires:\nnot retained as Activity history]
 ```
 
-- Keep Activity を **OFF** にしても、会話は **最大72時間** 保存され得る
-- その短期保存は **Gemini Apps Activity に表示されない**（＝見えない保持）
-- 目的は「サービス提供・フィードバック処理」のため、と説明されている
+- Keep Activity **OFF** ≠ immediate zero retention
+- Conversations may be saved for **up to 72 hours**
+- This short-term retention **won't appear in Gemini Apps Activity**
+- The stated purpose is to provide the service and process feedback
 
-### 根拠（公式ソース）
+### Primary Sources
 
-- **Manage & delete your Gemini Apps activity (Android)**
-  「Even when Keep Activity is off, ... saved ... up to 72 hours ... won't appear in your Gemini Apps Activity.」
-  https://support.google.com/gemini/answer/13278892?hl=en
-
-- **Google Workspace Updates Blog**
-  「conversation history OFFでも up to 72 hours 保存、Activityに出ない」
-  https://workspaceupdates.googleblog.com/2025/05/pre-configure-the-gemini-app-conversation-history-admin-setting.html
+| Source | Key Quote |
+|--------|-----------|
+| [Manage & delete your Gemini Apps activity](https://support.google.com/gemini/answer/13278892?hl=en) | "Even when Keep Activity is off, ... saved ... up to 72 hours ... won't appear in your Gemini Apps Activity." |
+| [Google Workspace Updates Blog](https://workspaceupdates.googleblog.com/2025/05/pre-configure-the-gemini-app-conversation-history-admin-setting.html) | Conversation history OFF still allows up to 72-hour retention, not shown in Activity |
 
 ---
 
-## なぜこれが問題になりやすいか
+## Why People Care
 
-この仕様自体に Google 側の「理由」が用意されている一方で、ユーザー視点では誤解が生まれやすい構造になっています。
-
-| 論点 | 内容 |
-|------|------|
-| **期待値ギャップ** | 「学習オフ＝保存しない」と受け取るのが自然。実際は最大72時間保持 |
-| **透明性の欠如** | 短期保存が Activity に表示されず、ユーザーが監査できない |
-| **代替の弱さ** | プライバシー優先にすると履歴機能を捨てることになる |
-
-> **"学習オフ"という言葉から一般人が期待するのは「保存しない」。
-> しかし実際は72時間保存され、しかも見えない。
-> これは透明性と期待値設計の問題である。**
+| Concern | Detail |
+|---------|--------|
+| **Expectation gap** | "Training OFF" is commonly understood as "not saved at all" |
+| **Transparency** | Short-term retention is not visible in Activity — users cannot audit it |
+| **Weak alternatives** | Privacy-first users must sacrifice convenient history features |
+| **Consumer vs Enterprise** | Workspace/Cloud users get stronger privacy guarantees; individual users do not |
 
 ---
 
-## ユーザー向け：最短の対策ガイド
+## GDPR and EU Relevance
 
-このリポジトリは「叩き」ではなく「自衛」のための実用資料です。
+This issue is particularly significant in the EU context:
 
-### やるべきこと
+- **GDPR Article 13/14** requires transparent disclosure of data processing purposes and retention periods. "Invisible retention" that doesn't appear in user-facing activity logs raises questions about whether users are adequately informed.
+- **GDPR Article 17 (Right to Erasure)** — if data is retained for up to 72 hours after the user turns off activity tracking, the practical ability to exercise deletion rights is delayed.
+- **EU antitrust precedent** — the European Commission has previously fined Google for self-preferencing in search results. The structural concern that critical information about Google's own services may be harder to find via Google Search is not hypothetical.
 
-- [ ] **重要情報を入力しない** — パスワード・APIキー・秘密鍵・顧客情報・未公開の設計/収益計画
-- [ ] **Keep Activity を OFF にする**（履歴の利便性は落ちる）
-- [ ] **OFFでも最大72時間保存される点を理解しておく**
-- [ ] 履歴が必要なら **ローカル保存**（Markdown / ノートアプリ等）で運用する
-- [ ] 可能なら **業務向け（Workspace / Cloud）** のデータ取扱いを検討する
-
-### 参考：業務向けの扱い（消費者向けと前提が異なる）
-
-- Workspace 管理者向けプライバシー（プロンプトがドメイン外学習に使われない旨）
-  https://support.google.com/a/answer/15706919?hl=en
-- Gemini for Google Cloud data governance（プロンプト/応答を学習に使わない旨）
-  https://docs.cloud.google.com/gemini/docs/discover/data-governance
+> This repository does not make legal claims. It highlights publicly documented facts that EU residents and regulators may find relevant.
 
 ---
 
-## ドキュメント
+## Practical Guidance
 
-| ファイル | 内容 |
-|----------|------|
-| [`docs/checklist.md`](docs/checklist.md) | 設定確認・運用チェックリスト |
-| [`docs/faq.md`](docs/faq.md) | よくある疑問（「嘘なの？」等） |
-| [`docs/claims.md`](docs/claims.md) | 主張（意見）と事実の線引き |
-| [`docs/diagram.mmd`](docs/diagram.mmd) | 仕様の関係図（Mermaid） |
-| [`README.en.md`](README.en.md) | English version |
+- [ ] **Do not paste secrets** — PII, credentials, API keys, customer data, unpublished plans
+- [ ] **Turn Keep Activity OFF** (expect reduced history convenience)
+- [ ] **Understand that up to 72 hours of retention may still occur**
+- [ ] If you need history, prefer **local archiving** (notes / Markdown)
+- [ ] Consider **Workspace / Cloud data governance** if applicable
 
----
+### References (Enterprise)
 
-## 背景：プラットフォーム支配の構造問題
-
-この問題は単なる「設定の話」にとどまりません。
-
-- **情報の非対称性** — 企業やITリテラシーの高い層は Workspace を使い、一般ユーザーは消費者向けプランで不利な条件に晒される
-- **検索の独占** — この種の批判記事が Google 検索で上位に来にくい可能性がある（EUでは Google の自社サービス優遇に対して独占禁止法の制裁実績あり）
-- **代替ブラウザの存在意義** — Brave が広告ブロックでユーザーを守ったように、AIプライバシーを守る層が求められている
+- [Workspace privacy hub](https://support.google.com/a/answer/15706919?hl=en) — prompts not used for out-of-domain model training
+- [Gemini for Google Cloud data governance](https://docs.cloud.google.com/gemini/docs/discover/data-governance) — prompts/responses not used for training
 
 ---
 
-## 免責
+## Documentation
 
-本リポジトリは、公開されている公式情報の要約と、一般ユーザー向けの実用ガイドです。
-法的助言ではありません。情報は 2026年2月時点のものです。
+| File | Description |
+|------|-------------|
+| [`docs/checklist.md`](docs/checklist.md) | Privacy settings checklist |
+| [`docs/faq.md`](docs/faq.md) | Frequently asked questions |
+| [`docs/claims.md`](docs/claims.md) | Facts vs opinions (clearly separated) |
+| [`docs/diagram.mmd`](docs/diagram.mmd) | Mermaid diagram source |
+| [`README.ja.md`](README.ja.md) | Japanese version |
 
 ---
 
-## ライセンス
+## The Bigger Picture: Platform Power
 
-[CC BY 4.0](LICENSE) — 引用・共有・改変自由（クレジット表記あり）
+- **Information asymmetry** — Enterprises use Workspace with stronger privacy guarantees; individual users are left with weaker consumer terms
+- **Search dominance** — Critical articles about Google may face disadvantages in Google Search (EU antitrust precedent exists)
+- **The case for alternatives** — Just as [Brave](https://brave.com/) protects users at the browser level, an AI privacy layer is increasingly needed
+
+---
+
+## Disclaimer
+
+This repository summarizes publicly available official information and provides practical guidance for end users.
+It is not legal advice. Information is current as of February 2026.
+
+---
+
+## License
+
+[CC BY 4.0](LICENSE) — Free to share and adapt with attribution.
