@@ -1,0 +1,18 @@
+flowchart TB
+  A[ユーザーがGeminiと対話] --> B{Gemini Apps Activity\nKeep Activity}
+  B -->|ON| C[対話履歴がアカウントに保存\nActivityに表示される]
+  C --> D[製品改善に使われうる\n設定・ポリシーに基づく]
+
+  B -->|OFF| E[Activity履歴には残らない\nActivityに表示されない]
+  E --> F[短期保持は発生しうる:\n最大72時間]
+  F --> G[目的:\nサービス提供 + フィードバック処理]
+  F --> H[期間経過後:\nActivity履歴としては保持されない]
+
+  style A fill:#4285F4,color:#fff
+  style B fill:#FBBC05,color:#000
+  style C fill:#EA4335,color:#fff
+  style D fill:#EA4335,color:#fff
+  style E fill:#34A853,color:#fff
+  style F fill:#FF6D01,color:#fff
+  style G fill:#9AA0A6,color:#000
+  style H fill:#9AA0A6,color:#000
